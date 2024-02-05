@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Soul City Map Editor</title>
+    <link rel="stylesheet" href="mapEditor.css">
+</head>
+<body>
+    <div id='chatPopUp'>
+        <div id='cpuHeader'>
+            <div id='cpuhText'>Dialogue Editor</div>
+            <div id='cpuhX' onclick="document.getElementById('chatPopUp').style.display = 'none'">X</div>
+        </div>
+        <div id='cpuBody'>
+            <div id='cpubLeft'>
+                <div id='cpublTop'>
+                        <div id='cpubltMap'>
+                            <div id='cpubltmHeader'>
+                                Map Attributes
+                            </div>
+                            <div id='cpubltmBody'>
+                                <div class='MAText'>Start Chat Distance</div>
+                                <input id='maStartChatDistance' class='MAText' value="2" min="0" max="10" type='range' oninput="this.nextElementSibling.value = this.value">
+                                <output id='maStartChatDistanceValue' class='MAText'>2</output>
+                                <br>
+                                <div class='MAText'>Exit Chat Distance</div>
+                                <input id='maExitChatDistance' class='MAText' value="2" min="0" max="10" type='range' oninput="this.nextElementSibling.value = this.value">
+                                <output id='maExirtChatDistance' class='MAText'>2</output>
+                                <br>
+                                <div class='MAText'>Can't Interact Color</div>
+                                <input id='maCantInteractColor' class='MAText' value="#ff0000" type='color'>
+                                <br>
+                                <div class='MAText'>Can Interact Color</div>
+                                <input id='maCanInteractColor' class='MAText' value="#0000ff" type='color'>
+                                <br>
+                                <div class='MAText'>Y Position</div>
+                                <input id='maYpos' class='MAText' value="1" min="-5" max="5" type='range' oninput="this.nextElementSibling.value = this.value">
+                                <output id='maYposValue' class='MAText'>1</output>
+                                <br>
+                                <div class='MAText'>X Position</div>
+                                <input id='maXpos' class='MAText' value="0" min="-5" max="5" type='range' oninput="this.nextElementSibling.value = this.value">
+                                <output id='maXposValue' class='MAText'>0</output>
+                                <br>
+                                <div class='MAText'>Chat Repeats</div>
+                                <input id='maChatRepeats' class='MAText' value="true" type='input'>
+                                <br>
+                            </div>
+                        </div>
+                </div>
+                <div id='cpublBottom'>
+                    
+                </div>
+            </div>
+            <div id='cpubRight'> 
+                <div id='allTexts'></div>
+            </div>
+        </div>
+    </div>
+    <div id='rightSide'>
+        <div id='rstop'>
+            <div id='rightBar'>
+                <div id='layer'></div>
+                <div id='bottom'>
+                    <div class='header plain' id='header1' onclick="switchTab('Tiles')">Tiles</div>
+                    <div class='header plain' id='header2' onclick="switchTab('Spaces')">Spaces</div>
+                    <div class='header plain' id='header3' onclick="switchTab('Tops')">Tops</div>
+                    <div class='header plain' id='header4' onclick="switchTab('Mechs')">Mechs</div>
+                </div>
+                <div id='displaying'>
+                    <div class='displayT' id='allTiles'></div>
+                    <div class='displayT' id='allSpaces'></div>
+                    <div class='displayT' id='allTops'></div>
+                    <div class='displayT' id='allMechs'></div>
+                </div>
+                <div id='extraBottom'>
+                    <div class='extBotShow extBot' id='extBot1' onclick="hideLayer('tile')">Tiles</div>
+                    <div class='extBotShow extBot' id='extBot2' onclick="hideLayer('space')">Spaces</div>
+                    <div class='extBotShow extBot' id='extBot3' onclick="hideLayer('top')">Tops</div>
+                    <div class='extBotShow extBot' id='extBot4' onclick="hideLayer('mech')">Mechs</div>
+                </div>
+            </div>
+            <div id='saves'>
+                <div id='saveSave'>
+                    <div id='savesHeader'>Saves</div>
+                    <div id='savesBottom'>
+                        <div id='saveOpt' onclick='newMap()'>New Map</div>
+                        <div id='saveOpt' onclick='saveAll()'>Save Maps</div>
+                        <div id='saveOpt' onclick='loadWorlds()'>Load Maps</div>
+                    </div>
+                    <div id='savesList'></div>
+                </div>
+                <div id='worldWorld'>
+                    <div id='savesHeader'>Games</div>
+                    <div id='savesBottom'>
+                        <div id='saveOpt' onclick='newGame()'>New Game</div>
+                        <div id='saveOpt' onclick='hardSaveGames()'>Save Games</div>
+                        <div id='saveOpt' onclick='hardLoadGames()'>Load Games</div>
+                    </div>
+                    <div id='gamesList'></div>
+                </div>
+                <div onclick='switchSavesWorlds()' class='bottomOfSaves' id='extraBottom'>
+                    View Worlds
+                </div>
+            </div>
+        </div>
+        <div id='rsbottom'>
+            <div id='rsbTopBar'>Inspector</div>
+
+            <div id='rsbLeft'>
+                <div id='rsbrTopBar'>
+                    <img id='rsblIMG'>
+                    <div id='rsblMapName'></div>
+                </div>
+                <div id='rsblBody'>
+                    <div id='rsblAttributes'>
+                        <div id='rsblaHeader'>Attributes</div>
+                        <div id='rsblaBody'></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id='rsbRight'>
+                <div id='rsbrTopBar'>
+                    <canvas id='rsbrCanvas'></canvas>
+                    <div id='rsbrMapName'></div>
+                </div>
+                <div id='rsbrBody'>
+                    <div id='rsbrRename' onclick='renameMap()' class='rsbrOption'>Rename</div>
+                    <div id='rsbrFillTiles' onclick='fillTiles()' class='rsbrOption'>Fill Tiles</div>
+                    <div id='rsbrDelete' onclick='deleteSave(currentMap)' class='rsbrOption'>Delete</div>
+                    <div id='rsbrClone' onclick='cloneMap()' class='rsbrOption'>Clone Map</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id='body'> 
+        <table id='map'></table>
+    </div>
+
+
+
+    <script src='libraries/library_simple_v14.js'></script>
+    <!--Instert All Plugins Below This Line-->
+    <!--Example: <script src='plugins/plugin_ccm_v2.js'></script>   -->
+    <script src='plugins/plugin_local storage_v2.js'></script>
+    
+    <!--And Above This Line-->
+    <!--Instert All Mods Below This Line-->
+    <!--Example: <script src='mods/mod_ccm_v2.js'></script>   -->
+
+    <script src="tilesSpacesTopsMechs.js"></script>
+    <script src="universal.js"></script>
+    <script src='mapEditor.js'></script>
+</body>
+</html>
